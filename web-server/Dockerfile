@@ -1,0 +1,4 @@
+FROM php:7.4.33-apache
+RUN apt update
+RUN docker-php-ext-install mysqli
+RUN echo "ServerName php-apache" >> /etc/apache2/apache2.conf

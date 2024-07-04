@@ -1,0 +1,18 @@
+# connect to the db-client container's shell
+docker exec -it db-client /bin/sh
+
+# use msql to connect to the db-server (password=password)
+mysql -h db-server -P 3306 -u user -p
+
+# select database
+USE SAS_db
+
+# check current table content
+SELECT * FROM systems;
+
+# add new entry
+INSERT INTO systems (sas_name, vendor_name, supported_os, rating)
+VALUES ('REDKIT SCADA', 'ProSoft', 'Windows/Linux', 6.1);
+
+# verify changes
+SELECT * FROM systems;

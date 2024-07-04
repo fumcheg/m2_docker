@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  php-apache:
+    build: web-server/
+    image: php:7.4.33-apache-yusufov
+    container_name: php-apache
+    restart: unless-stopped
+    ports:
+      - '6969:80'
+    volumes:
+      - './web-server/src:/var/www/html'
+    depends_on:
+      - db-server
+  db-server:
+    image: mysql:5.7.44
+    container_name: db-server
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './db-server/dbfile:/var/lib/mysql'
+      - './db-server/init.sql:/docker-entrypoint-initdb.d/init.sql'
+  db-client:
+    build: db-client/
+    image: alpine:mysql-client-yusufov
+    container_name: db-client
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - db-server  
